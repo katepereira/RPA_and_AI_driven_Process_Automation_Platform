@@ -1,61 +1,54 @@
 """
-claude_validator.py
---------------------
-The "AI" half of the AI-driven automation platform. Regex extraction is
-brittle and dumb; this module hands the raw text + extracted fields to
-Claude and asks it to (a) sanity-check the extraction, (b) flag anything
-inconsistent or missing, and (c) write a one-line human-readable summary.
+claude_validator.py  (MOCK MODE - no API calls, no cost)
+-----------------------------------------------------------
+This is a drop-in stand-in for the real Claude-powered validator.
+Same function name, same input, same output shape (status/issues/summary)
+as the real one - so main.py and watcher.py need ZERO changes.
 
-Requires an ANTHROPIC_API_KEY environment variable. Get one at
-https://console.anthropic.com/settings/keys
+It runs simple rule-based checks instead of calling Claude, so you can
+build, test, and demo the rest of the pipeline (extraction, watcher,
+logging, n8n) completely free, with no API credit needed.
+
+When your Anthropic billing/credits are sorted:
+  1. Delete this file's contents (or rename it out of the way).
+  2. Rename claude_validator_real.py -> claude_validator.py.
+That's the only change needed to switch back to real AI validation.
 """
 
-import os
-import json
-import anthropic
+import time
+import random
 
-client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-
-VALIDATION_PROMPT = """You are a QA assistant for an inspection/certification back-office.
-You are given raw OCR/text extracted from a certificate PDF, plus fields a regex
-extractor pulled out of it. Your job:
-
-1. Decide if the extracted fields look complete and internally consistent.
-2. List any specific issues (missing field, date looks malformed, result value
-   not one of PASS/FAIL/CONDITIONAL, name looks truncated, etc).
-3. Write a one-sentence plain-English summary of this certificate.
-
-Respond ONLY with JSON, no other text, in exactly this shape:
-{{"status": "ok" | "needs_review", "issues": ["..."], "summary": "..."}}
-
-RAW TEXT:
-{raw_text}
-
-EXTRACTED FIELDS:
-{fields_json}
-"""
+REQUIRED_FIELDS = ["certificate_number", "inspection_date", "inspector_name", "result"]
+VALID_RESULTS = {"PASS", "FAIL", "CONDITIONAL"}
 
 
 def validate_certificate(raw_text: str, fields: dict) -> dict:
-    prompt = VALIDATION_PROMPT.format(
-        raw_text=raw_text[:4000],  # keep prompt small; this is a demo, not a full doc pipeline
-        fields_json=json.dumps(fields, indent=2),
-    )
+    # Small artificial delay so this behaves like a real network call
+    # in demos (instant responses look suspicious in a live walkthrough).
+    time.sleep(random.uniform(0.3, 0.8))
 
-    response = client.messages.create(
-        model="claude-sonnet-5",
-        max_tokens=500,
-        messages=[{"role": "user", "content": prompt}],
-    )
+    issues = []
 
-    text = response.content[0].text.strip()
-    text = text.removeprefix("```json").removeprefix("```").removesuffix("```").strip()
+    for field in REQUIRED_FIELDS:
+        if not fields.get(field):
+            issues.append(f"Missing required field: {field}")
 
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        return {
-            "status": "needs_review",
-            "issues": ["Claude response could not be parsed as JSON"],
-            "summary": text[:200],
-        }
+    result_value = fields.get("result")
+    if result_value and result_value.upper() not in VALID_RESULTS:
+        issues.append(f"Unexpected result value: '{result_value}' (expected PASS/FAIL/CONDITIONAL)")
+
+    inspector = fields.get("inspector_name") or ""
+    if inspector and len(inspector.split()) > 6:
+        issues.append("Inspector name looks abnormally long - possible extraction error")
+
+    status = "needs_review" if issues else "ok"
+
+    cert_num = fields.get("certificate_number", "unknown certificate")
+    result_str = fields.get("result", "no result recorded")
+    summary = f"[MOCK] Certificate {cert_num}: result={result_str}, {len(issues)} issue(s) flagged."
+
+    return {
+        "status": status,
+        "issues": issues,
+        "summary": summary,
+    }

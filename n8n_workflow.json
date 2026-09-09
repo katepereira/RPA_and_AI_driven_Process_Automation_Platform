@@ -1,0 +1,124 @@
+{
+  "name": "Certificate Intake - RPA + AI Validation",
+  "nodes": [
+    {
+      "parameters": {
+        "triggerAtHour": 0
+      },
+      "id": "1",
+      "name": "Every Minute (poll folder)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [240, 300],
+      "parameters_note": "Set 'Trigger Interval' to Seconds / every 30-60s in the n8n UI. JSON export keeps defaults; edit in the editor after import."
+    },
+    {
+      "parameters": {
+        "fileSelector": "/absolute/path/to/rpa-ai-platform/incoming_certificates/*.pdf",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Read New PDFs",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://localhost:8000/process-certificate",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3",
+      "name": "Call FastAPI /process-certificate",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{$json.ai_status}}",
+              "rightValue": "needs_review",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "4",
+      "name": "Needs Review?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "automation@yourcompany.example",
+        "toEmail": "you@yourcompany.example",
+        "subject": "Certificate flagged for review: {{$json.filename}}",
+        "text": "=Issues found:\n{{$json.ai_issues.join('\\n')}}\n\nSummary: {{$json.ai_summary}}",
+        "options": {}
+      },
+      "id": "5",
+      "name": "Send Review Alert",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1120, 220],
+      "notes": "Swap for the Slack node if you'd rather post to a channel."
+    },
+    {
+      "parameters": {},
+      "id": "6",
+      "name": "No Action Needed",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1120, 400]
+    }
+  ],
+  "connections": {
+    "Every Minute (poll folder)": {
+      "main": [[{ "node": "Read New PDFs", "type": "main", "index": 0 }]]
+    },
+    "Read New PDFs": {
+      "main": [[{ "node": "Call FastAPI /process-certificate", "type": "main", "index": 0 }]]
+    },
+    "Call FastAPI /process-certificate": {
+      "main": [[{ "node": "Needs Review?", "type": "main", "index": 0 }]]
+    },
+    "Needs Review?": {
+      "main": [
+        [{ "node": "Send Review Alert", "type": "main", "index": 0 }],
+        [{ "node": "No Action Needed", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "_import_notes": [
+    "This is a hand-written export meant to be imported and then adjusted in the n8n editor (Import from File, or paste into Import from URL/Clipboard).",
+    "Update the 'Read New PDFs' node's file path to your actual absolute path.",
+    "The Schedule Trigger interval isn't fully expressible in raw JSON defaults - set it to every 30-60 seconds in the node's UI panel after import.",
+    "Configure SMTP credentials on the Send Review Alert node (or delete it and drop in a Slack node instead)."
+  ]
+}

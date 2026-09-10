@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+.Python
+*.egg-info/
+
+# Environment / secrets — never commit these
+.env
+.env.*
+*.key
+
+# Project runtime data (generated at runtime, not source code)
+processed/
+incoming_certificates/*.pdf
+
+# n8n local data — never commit, this can contain credential references
+# and local execution history
+.n8n/
+n8n-data/
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/

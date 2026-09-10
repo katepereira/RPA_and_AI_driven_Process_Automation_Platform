@@ -125,5 +125,195 @@
     "processing_seconds": 0.497,
     "logged_at": "2026-09-09T09:10:29.427651+00:00",
     "id": 7
+  },
+  {
+    "filename": "cert_002_conditional.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00459",
+      "inspection_date": "04/09/2026",
+      "inspector_name": "Anja Fischer",
+      "result": "CONDITIONAL",
+      "equipment": "Elevator Unit EL-22"
+    },
+    "missing_fields": [],
+    "ai_status": "ok",
+    "ai_issues": [],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00459: result=CONDITIONAL, 0 issue(s) flagged.",
+    "processing_seconds": 0.707,
+    "logged_at": "2026-09-10T11:22:06.694259+00:00",
+    "id": 8
+  },
+  {
+    "filename": "cert_003_incomplete.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00460",
+      "inspection_date": null,
+      "inspector_name": "field missing due to form error.",
+      "result": "FAIL",
+      "equipment": "Boiler B-9"
+    },
+    "missing_fields": [
+      "inspection_date"
+    ],
+    "ai_status": "needs_review",
+    "ai_issues": [
+      "Missing required field: inspection_date"
+    ],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00460: result=FAIL, 1 issue(s) flagged.",
+    "processing_seconds": 0.579,
+    "logged_at": "2026-09-10T11:22:07.279891+00:00",
+    "id": 9
+  },
+  {
+    "filename": "cert_002_conditional.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00459",
+      "inspection_date": "04/09/2026",
+      "inspector_name": "Anja Fischer",
+      "result": "CONDITIONAL",
+      "equipment": "Elevator Unit EL-22"
+    },
+    "missing_fields": [],
+    "ai_status": "ok",
+    "ai_issues": [],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00459: result=CONDITIONAL, 0 issue(s) flagged.",
+    "processing_seconds": 0.773,
+    "logged_at": "2026-09-10T11:24:52.239836+00:00",
+    "id": 10
+  },
+  {
+    "filename": "cert_003_incomplete.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00460",
+      "inspection_date": null,
+      "inspector_name": "field missing due to form error.",
+      "result": "FAIL",
+      "equipment": "Boiler B-9"
+    },
+    "missing_fields": [
+      "inspection_date"
+    ],
+    "ai_status": "needs_review",
+    "ai_issues": [
+      "Missing required field: inspection_date"
+    ],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00460: result=FAIL, 1 issue(s) flagged.",
+    "processing_seconds": 0.804,
+    "logged_at": "2026-09-10T11:24:53.048358+00:00",
+    "id": 11
+  },
+  {
+    "filename": "cert_002_conditional.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00459",
+      "inspection_date": "04/09/2026",
+      "inspector_name": "Anja Fischer",
+      "result": "CONDITIONAL",
+      "equipment": "Elevator Unit EL-22"
+    },
+    "missing_fields": [],
+    "ai_status": "ok",
+    "ai_issues": [],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00459: result=CONDITIONAL, 0 issue(s) flagged.",
+    "processing_seconds": 0.681,
+    "logged_at": "2026-09-10T11:33:53.817527+00:00",
+    "id": 12
+  },
+  {
+    "filename": "cert_003_incomplete.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00460",
+      "inspection_date": null,
+      "inspector_name": "field missing due to form error.",
+      "result": "FAIL",
+      "equipment": "Boiler B-9"
+    },
+    "missing_fields": [
+      "inspection_date"
+    ],
+    "ai_status": "needs_review",
+    "ai_issues": [
+      "Missing required field: inspection_date"
+    ],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00460: result=FAIL, 1 issue(s) flagged.",
+    "processing_seconds": 0.349,
+    "logged_at": "2026-09-10T11:33:54.173203+00:00",
+    "id": 13
+  },
+  {
+    "filename": "cert_002_conditional.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00459",
+      "inspection_date": "04/09/2026",
+      "inspector_name": "Anja Fischer",
+      "result": "CONDITIONAL",
+      "equipment": "Elevator Unit EL-22"
+    },
+    "missing_fields": [],
+    "ai_status": "ok",
+    "ai_issues": [],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00459: result=CONDITIONAL, 0 issue(s) flagged.",
+    "processing_seconds": 0.334,
+    "logged_at": "2026-09-10T11:37:50.323462+00:00",
+    "id": 14
+  },
+  {
+    "filename": "cert_003_incomplete.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00460",
+      "inspection_date": null,
+      "inspector_name": "field missing due to form error.",
+      "result": "FAIL",
+      "equipment": "Boiler B-9"
+    },
+    "missing_fields": [
+      "inspection_date"
+    ],
+    "ai_status": "needs_review",
+    "ai_issues": [
+      "Missing required field: inspection_date"
+    ],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00460: result=FAIL, 1 issue(s) flagged.",
+    "processing_seconds": 0.582,
+    "logged_at": "2026-09-10T11:37:50.914105+00:00",
+    "id": 15
+  },
+  {
+    "filename": "cert_002_conditional.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00459",
+      "inspection_date": "04/09/2026",
+      "inspector_name": "Anja Fischer",
+      "result": "CONDITIONAL",
+      "equipment": "Elevator Unit EL-22"
+    },
+    "missing_fields": [],
+    "ai_status": "ok",
+    "ai_issues": [],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00459: result=CONDITIONAL, 0 issue(s) flagged.",
+    "processing_seconds": 0.681,
+    "logged_at": "2026-09-10T11:43:20.191595+00:00",
+    "id": 16
+  },
+  {
+    "filename": "cert_003_incomplete.pdf",
+    "fields": {
+      "certificate_number": "TUV-2026-00460",
+      "inspection_date": null,
+      "inspector_name": "field missing due to form error.",
+      "result": "FAIL",
+      "equipment": "Boiler B-9"
+    },
+    "missing_fields": [
+      "inspection_date"
+    ],
+    "ai_status": "needs_review",
+    "ai_issues": [
+      "Missing required field: inspection_date"
+    ],
+    "ai_summary": "[MOCK] Certificate TUV-2026-00460: result=FAIL, 1 issue(s) flagged.",
+    "processing_seconds": 0.644,
+    "logged_at": "2026-09-10T11:43:20.841316+00:00",
+    "id": 17
   }
 ]
